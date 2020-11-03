@@ -6,7 +6,7 @@ use \Exception;
 use \MatthiasMullie\Minify\CSS;
 use \MatthiasMullie\Minify\JS;
 
-class Minify extends MinifyInterface {
+class Minify implements MinifyInterface {
    /**@var CSS|JS */
    private $minify;
 
