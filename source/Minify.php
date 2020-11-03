@@ -92,7 +92,7 @@ class Minify implements MinifyInterface {
     * @param  bool $makeFolder
     * @return object
     */
-   public function minify(string $outputDir = __DIR__ . "/../assets/output", string $outputFile = "output.js", bool $makeFolder = true): ?string 
+   public function minify(string $outputDir, string $outputFile, bool $makeFolder = true): ?string 
    {
       if($makeFolder) {
          //[TODO] Buscar o diretorio do arquivo
