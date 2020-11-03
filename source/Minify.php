@@ -6,7 +6,7 @@ use \Exception;
 use \MatthiasMullie\Minify\CSS;
 use \MatthiasMullie\Minify\JS;
 
-class Minify {
+class Minify extends MinifyInterface {
    /**@var CSS|JS */
    private $minify;
 
@@ -18,7 +18,7 @@ class Minify {
 
    /**@var MinifyType */
    public const JS = "\MatthiasMullie\Minify\JS";
-
+ 
       
    /**
     * Recebe o tipo de minificador (JS / CSS)
@@ -92,7 +92,7 @@ class Minify {
     * @param  bool $makeFolder
     * @return object
     */
-   public function minify(string $outputDir = __DIR__ . "/../assets/output", string $outputFile = "output.js", bool $makeFolder = true): ?object 
+   public function minify(string $outputDir = __DIR__ . "/../assets/output", string $outputFile = "output.js", bool $makeFolder = true): ?string 
    {
       if($makeFolder) {
          //[TODO] Buscar o diretorio do arquivo
@@ -102,12 +102,9 @@ class Minify {
       $output = (substr($outputDir , -1) === '/') ? "{$outputDir}{$outputFile}" : "{$outputDir}/{$outputFile}";
 
       try {
-         $minifed = $this->minify->minify($output); 
+         $this->minify->minify($output); 
+         return $output;
 
-         return (object) [
-            "file" => $output,
-            "minifed" => $minifed 
-         ];
       } catch(\Exception $e) {
          throw new Exception("[Error] Could not minify... " . $e->getMessage());
          return null;
