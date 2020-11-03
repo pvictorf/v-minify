@@ -12,5 +12,5 @@ $minify->addFile(__DIR__ . '/../assets/js/flatpick-pt.js');
 $minifed = $minify->minify(__DIR__ . "/../assets/output", "scripts.js");
 
 
-echo "<pre> The file is in {$minifed->file}" . PHP_EOL;
+echo "<pre> The file is in {$minifed} " . PHP_EOL;
 print_r($minify->getAddedFiles());
