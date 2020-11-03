@@ -1,0 +1,20 @@
+{
+    "name": "pvictorf/v-minify",
+    "description": "Minify CSS and JS files only one",
+    "authors": [
+        {
+            "name": "pvictorf",
+            "email": "41065334+pvictorf@users.noreply.github.com"
+        }
+    ],
+"autoload": {
+    "psr-4": {
+      "Source\\": "source/"
+    },
+    "files": []
+  },
+    "require": {
+	"php": "^7.1",
+	"matthiasmullie/minify": "^1.3"
+     }
+}
