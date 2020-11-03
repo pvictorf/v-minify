@@ -1,2 +1,2 @@
 # v-minify
-Minify CSS and JS files only one file
+Minify arquivos CSS e JS através desse Adapter para PHP.
