@@ -10,6 +10,6 @@ interface MinifyInterface {
 
    public function getAddedFiles(): ?array; 
    
-   public function minify(string $outputDir, bool $makeFolder = true): ?string; 
+   public function minify(string $outputDir, string $outputFile, bool $makeFolder = true): ?string; 
     
-}
+} 
