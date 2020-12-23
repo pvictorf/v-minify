@@ -1,0 +1,19 @@
+<?php
+require __DIR__ . '/../vendor/autoload.php';
+
+use Source\Minify;
+
+$minify = new Minify(Minify::JS);
+
+
+//Adding jquery as the first file
+$minify->addFile(__DIR__ . '/../assets/js/jquery.js');
+
+//Adding the other files from the same directory
+$minify->addFolder(__DIR__ . '/../assets/js/');
+
+
+$minifed = $minify->minify(__DIR__ . "/../assets/output", "scripts.js");
+
+echo "<pre> The file is in {$minifed} " . PHP_EOL;
+print_r($minify->getFiles());
