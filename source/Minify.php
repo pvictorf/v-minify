@@ -11,7 +11,7 @@ class Minify implements MinifyInterface {
    private $minify;
 
    /**@var array */
-   private $addedFiles;
+   private $files;
 
    /**@var MinifyType */
    public const CSS = "\MatthiasMullie\Minify\CSS";
@@ -28,7 +28,7 @@ class Minify implements MinifyInterface {
    public function __construct(string $minifyType)
    {
       $this->minify = (new $minifyType());
-      $this->addedFiles = [];
+      $this->files = [];
    }
    
    /**
@@ -49,8 +49,11 @@ class Minify implements MinifyInterface {
    public function addFile(string $filePath): bool 
    {
       if(is_file($filePath) && file_exists($filePath)) {
-         $this->minify->addFile($filePath);
-         $this->addedFiles[] = $filePath;
+        
+         if($this->validateFile($filePath)) {
+            $this->files[] = $filePath;
+            $this->addToMinify();
+         }
          
       } else {
          throw new \Exception("[Error] $filePath is not a valid file or no exist");
@@ -76,13 +79,27 @@ class Minify implements MinifyInterface {
       foreach($scannedFiles as $file) {    
          $filePath = (substr($folderPath , -1) === '/') ? "{$folderPath}{$file}" : "{$folderPath}/{$file}";
 
-         if(is_file($filePath) && file_exists($filePath)) {
-            $this->minify->addFile($filePath);
-            $this->addedFiles[] = $filePath;
+         if($this->validateFile($filePath)) {
+            $this->files[] = $filePath;
+            $this->addToMinify();
          }
       }
 
       return true;
+   }
+
+   private function validateFile(string $filePath): bool {
+      return (is_file($filePath) && file_exists($filePath) && !in_array($filePath, $this->files));
+   }
+
+   /**
+    * 
+    * @return void
+    */
+   private function addToMinify(): void {
+      foreach ($this->files as $file) {
+         $this->minify->addFile($file);
+      } 
    }
    
    /**
@@ -92,14 +109,13 @@ class Minify implements MinifyInterface {
     * @param  bool $makeFolder
     * @return object
     */
-   public function minify(string $outputDir, string $outputFile, bool $makeFolder = true): ?string 
+   public function minify(string $outputDir, string $outputFile, bool $forceMakeFolder = true): ?string 
    {
-      if($makeFolder) {
-         //[TODO] Buscar o diretorio do arquivo
-         //Tentar criar a pasta com permissão de escrita
-      }
-
       $output = (substr($outputDir , -1) === '/') ? "{$outputDir}{$outputFile}" : "{$outputDir}/{$outputFile}";
+
+      if(!is_dir($outputDir) && $forceMakeFolder) {
+         mkdir($outputDir);
+      }
 
       try {
          $this->minify->minify($output); 
@@ -112,8 +128,8 @@ class Minify implements MinifyInterface {
       
    }
 
-   public function getAddedFiles(): ?array 
+   public function getFiles(): ?array 
    {
-      return $this->addedFiles;
+      return $this->files;
    }
 }

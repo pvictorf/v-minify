@@ -8,7 +8,7 @@ interface MinifyInterface {
     
    public function addFolder(string $folderPath): bool; 
 
-   public function getAddedFiles(): ?array; 
+   public function getFiles(): ?array; 
    
    public function minify(string $outputDir, string $outputFile, bool $makeFolder = true): ?string; 
     
